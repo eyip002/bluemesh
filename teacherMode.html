@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+<html>
+<head xmlns="http://www.w3.org/1999/xhtml">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+	<script type="text/javascript" src="flashDetection.js"></script>
+	<script language="JavaScript" type="text/javascript">
+		<!--
+		// Define version of Flash required
+		var requiredMajorVersion = 6;
+		var requiredMinorVersion = 0;
+		var requiredRevision = 0;
+
+        // JavaScript function called by BlueMesh
+		function BlueMesh_DoFSCommand(command, args) {
+			switch(command) {
+				case ("netlist"):	document.forms[0].elements[0].value = args;
+									break;
+
+				case ("nets"):		document.forms[0].elements[1].value = args;
+									break;
+
+				case ("boolean"):	document.forms[0].elements[2].value = args;
+									break;
+
+				case ("alertJS"):	alert(args);
+									break;
+
+				case ("promptJS"):	var flashMovieObject = getFlashMovieObject("BlueMesh");
+									switch (args) {
+										case ("object"):		flashMovieObject.SetVariable("originalNetList", prompt("Enter object XML"));
+																break;
+
+										case ("relational"):	flashMovieObject.SetVariable("originalNets", prompt("Enter relational XML"));
+																break;
+
+										default:				prompt(args);
+																break;
+									}
+									break;
+
+				case("confirmJS"):
+									confirm(args);
+									break;
+
+				default:			break;
+			}
+		}
+
+        // Returns the flash object of BlueMesh
+		function getFlashMovieObject(movieName) {
+			if (window.document[movieName]) {
+				return window.document[movieName];
+			}
+			if (navigator.appName.indexOf("Microsoft Internet") == -1) {
+				if (document.embeds && document.embeds[movieName]) {
+					return document.embeds[movieName];
+				} else {// if (navigator.appName.indexOf("Microsoft Internet")!=-1) {
+					return document.getElementById(movieName);
+				}
+			}
+		}
+
+		// -->
+	</script>
+
+	<script language="VBScript">
+		<!--
+		// Catch the fscommand in ie with vbscript, and pass
+		// it on to JavaScript.
+
+		Sub BlueMesh_FSCommand(ByVal command, ByVal args)
+			call BlueMesh_DoFSCommand(command, args)
+		end sub
+
+		//-->
+	</script>
+
+	<title>BlueMesh</title>
+</head>
+
+<body class="pageBody" bgcolor="ffffff">
+	<div style="text-align: center; font-size: 30pt; margin: 40px;">Teacher Mode</div>
+
+	<div id="flashDiv" style="width: 700px; height: 500px; border: 1px solid gray; margin: auto;">
+		This content requires the Adobe Flash Player and a browser with JavaScript enabled.
+		<a href="http://www.adobe.com/go/getflash/">Get Flash</a>
+	</div>
+
+	<form method="post" onsubmit="return false;" action="#">
+		<ol>
+			<li>
+				netlist: <input type='text' value='' />
+			</li>
+			<li>
+				nets: <input type='text' value='' />
+			</li>
+			<li>
+				boolean: <input type='text' value='' />
+			</li>
+			<li>
+				purpose: <input type='text' value='' />
+			</li>
+			<li>
+				teacherMode: <input type='text' value='' />
+			</li>
+			<li>
+				gridSize: <input type='text' value='' />
+			</li>
+		</ol>
+	</form>
+
+	<script language="JavaScript" type="text/javascript">
+		<!--
+		var purpose = "boolean";
+		document.forms[0].elements[3].value = purpose;
+
+		var teacherMode = true;
+		document.forms[0].elements[4].value = teacherMode;
+
+		var gridSize = 13;
+		document.forms[0].elements[5].value = gridSize;
+
+		var originalNetList = "";
+
+		var originalNets = "";
+
+		var flashVars = "originalNetList=" + originalNetList
+					  + "&originalNets=" + originalNets
+					  + "&teacherMode=" + teacherMode
+					  + "&purpose=" + purpose
+					  + "&gridSize=" + gridSize;
+
+		// Check to see if the version meets the requirements for playback
+		var hasReqestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+
+		if (hasReqestedVersion) {
+			// if we've detected an acceptable version
+			// embed the Flash Content SWF when all tests are passed
+			AC_FL_RunContent(
+				"src", "BlueMesh",
+				"name", "BlueMesh",
+				"FlashVars", flashVars,
+				"width", "700",
+				"height", "500",
+				"align", "middle",
+				"id", "OASIS_circuit_editor",
+				"quality", "high",
+				"bgcolor", "#FFFFFF",
+				"allowScriptAccess","sameDomain",
+				"type", "application/x-shockwave-flash",
+				'codebase', 'http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab',
+				"pluginspage", "http://www.adobe.com/go/getflashplayer"
+			);
+		}
+		// -->
+	</script>
+
+</body>
+</html>
