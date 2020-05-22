@@ -1,4 +1,4 @@
-#BlueMesh
+# BlueMesh
 
 BlueMesh is a relational editor. For a set of entities, relations can be made between them. BlueMesh displays entities as rectangular graphics and relationships as lines. Relationships are created between connection sites around each entity.
 
