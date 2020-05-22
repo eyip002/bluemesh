@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application
+    xmlns:mx="http://www.adobe.com/2006/mxml"
+	applicationComplete="drawGrid()"
+>
+
+    <mx:Style>
+        Application {
+			paddingLeft: 10px;
+            paddingRight: 10px;
+            paddingTop: 10px;
+            paddingBottom: 10px;
+
+            backgroundImage: "";
+            backgroundColor: #FFFFFF;
+			horizontalAlign: "center";
+			verticalAlign: "middle";
+        }
+		
+		Panel {
+            paddingLeft: 10px;
+            paddingRight: 10px;
+            paddingTop: 10px;
+            paddingBottom: 10px;
+		}
+		
+		TabNavigator {
+            paddingLeft: 10px;
+            paddingRight: 10px;
+            paddingTop: 10px;
+            paddingBottom: 10px;
+		}
+    </mx:Style>
+	
+	<mx:Array id="toolbarLeft">
+		<mx:Object label="Save" tooltip="Saves the current diagram." />
+		<mx:Object label="Load" tooltip="Brings up a textfield to enter BlueMesh xml then redraws the diagram." />
+	</mx:Array>
+
+	<mx:Array id="toolbarMiddle">
+		<mx:Object label="Edit" tooltip="Enter editing mode to manipulate each object." />
+		<mx:Object label="Clear" tooltip="Clear the diagram." />
+	</mx:Array>
+
+	<mx:Array id="toolbarRight">
+		<mx:Object label="Help" tooltip="Pointers to using BlueMesh." />
+		<mx:Object label="About" tooltip="Displays application information." />
+	</mx:Array>
+	
+	<mx:Script>
+		import mx.core.DragSource;
+		import mx.managers.DragManager;
+	
+		import mx.events.ItemClickEvent;
+		import mx.events.DragEvent;	
+		import flash.events.MouseEvent;
+				
+		import mx.containers.TitleWindow;
+		import mx.containers.VBox;
+		import mx.containers.ControlBar;
+
+		import mx.managers.PopUpManager;
+		
+		import mx.controls.Alert;
+		import mx.controls.Text;
+		import mx.controls.Button;
+		import mx.controls.TextArea;
+		import mx.controls.Spacer;
+	</mx:Script>
+	
+    <mx:Script>
+		<![CDATA[	
+		
+		private function drawGrid() : void {
+			var gridSize:int = 25;
+			var gridWidthRounding:int = diagram1.width % gridSize;
+			var gridHeightRounding:int = diagram1.height % gridSize;
+			
+			var gridWidth:int = diagram1.width;
+			var gridHeight:int = diagram1.height;
+			var grid:Shape = new Shape();
+			
+			grid.graphics.lineStyle(2, 0x00CCFF, 1);
+			
+			// Vertical lines
+			var width:int = 0;
+			for (width = gridWidthRounding/2; width < gridWidth; width += gridSize) {
+				grid.graphics.moveTo(width, gridHeightRounding/2);
+				grid.graphics.lineTo(width, gridHeight - gridHeightRounding);
+			}
+			
+			// Horizontal lines
+			width -= gridSize;
+			for (var i:int = gridHeightRounding/2; i < gridHeight; i += gridSize) {
+				grid.graphics.moveTo(gridWidthRounding/2, i);
+				grid.graphics.lineTo(width, i);
+			}
+			
+			diagram1.rawChildren.addChild(grid);
+		}
+		
+		]]>
+    </mx:Script>
+
+    
+    <mx:Script>
+		var xmlTextArea:TextArea = new TextArea();
+
+		public function infoPopup(event:ItemClickEvent) : void {
+			var infoWindow:TitleWindow = new TitleWindow();
+			infoWindow.title = event.label;
+			infoWindow.width= 300;
+			infoWindow.height= 200;
+
+			var infoText:Text = new Text();
+			infoText.height = 100;
+			if (event.label == "Help") {
+				infoText.text = "Not much to help, sorry.";
+			} else if (event.label == "About") {
+				infoText.text = "BlueMesh:\nVersion 0.01\nAuthor: Eugene Kin Chee Yip";
+			}
+					
+			var closeButton:Button = new Button();
+			closeButton.label="Close";
+			closeButton.addEventListener(MouseEvent.CLICK, closePopup);
+
+			var controlBar:ControlBar = new ControlBar();
+			controlBar.setStyle("horizontalAlign", "center");
+			controlBar.addChild(infoText);
+			controlBar.addChild(closeButton);
+			
+			infoWindow.addChild(infoText);
+			infoWindow.addChild(controlBar);
+					
+			PopUpManager.addPopUp(infoWindow, this, true);
+			PopUpManager.centerPopUp(infoWindow);
+		}
+		
+		
+		public function textInputPopup(event:ItemClickEvent) : void {
+			if (event.label == "Save") {
+				Alert.show("Saved BlueMesh XML.");
+				return;
+			}
+			
+			var infoWindow:TitleWindow = new TitleWindow();
+			infoWindow.setStyle("horizontalAlign", "center");
+			infoWindow.setStyle("verticalAlign", "middle");
+			infoWindow.title = event.label;
+			infoWindow.width= 300;
+			infoWindow.height= 200;
+			
+			xmlTextArea.width = 250;
+			xmlTextArea.height = 100;
+			
+			var okButton:Button = new Button();
+			okButton.label="Ok";
+			okButton.addEventListener(MouseEvent.CLICK, parseXML);
+			
+			var closeButton:Button = new Button();
+			closeButton.label="Close";
+			closeButton.addEventListener(MouseEvent.CLICK, closePopup);
+			
+			var controlBar:ControlBar = new ControlBar();
+			controlBar.setStyle("horizontalAlign", "right");
+			controlBar.addChild(okButton);
+			controlBar.addChild(closeButton);
+			
+			infoWindow.addChild(xmlTextArea);
+			infoWindow.addChild(controlBar);
+			
+			PopUpManager.addPopUp(infoWindow, this, true);
+			PopUpManager.centerPopUp(infoWindow);
+		}
+
+		public function closePopup(event:MouseEvent) : void {
+			PopUpManager.removePopUp(event.currentTarget.parent.parent);
+		}
+		
+		public function parseXML(event:MouseEvent) : void {
+			PopUpManager.removePopUp(event.currentTarget.parent.parent);
+			Alert.show("Parsed BlueMesh XML.");
+		}
+	</mx:Script>
+	
+	<mx:Script>
+		private function dragObjectHandler(event:MouseEvent) : void {
+			var dragInitiator:Canvas = Canvas(event.currentTarget);
+            var dragSource:DragSource = new DragSource();
+
+			var startX:int = dragInitiator.x - dragInitiator.mouseX;
+			var startY:int = dragInitiator.y - dragInitiator.mouseY;
+			
+			dragSource.addData(startX, 'startX');
+            dragSource.addData(startY, 'startY');
+			
+			DragManager.doDrag(dragInitiator, dragSource, event);
+		}
+		
+		
+        private function dragEnterHandler(event:DragEvent) : void {
+			DragManager.acceptDragDrop(Canvas(event.currentTarget));
+        }
+                
+        private function dragDropHandler(event:DragEvent) : void {
+			var startX:Object = event.dragSource.dataForFormat('startX');
+			var startY:Object = event.dragSource.dataForFormat('startY');
+				
+			Canvas(event.dragInitiator).x = Canvas(event.dragInitiator).mouseX + int(startX);
+			Canvas(event.dragInitiator).y = Canvas(event.dragInitiator).mouseY + int(startY);
+		} 
+		
+	</mx:Script>
+	
+	
+    <mx:Panel
+		id="mainPanel"
+        title="BlueMesh"
+		horizontalAlign="right"
+		width="100%"
+		height="100%"
+>
+		<mx:HBox
+			width="100%"
+			height="100%"
+		>
+		
+		<mx:TabNavigator
+			id="drawingArea"
+			width="100%"
+			height="100%"
+		>
+			<mx:Canvas
+				id="diagram1"
+				label="Diagram 1"
+			/>
+			<mx:Canvas
+				id="diagram2"
+				label="Diagram 2"
+			/>
+			<mx:Canvas
+				id="diagram3"
+				label="Diagram 3"
+				width="100%"
+				height="100%"
+				backgroundColor="white"
+				dragEnter="dragEnterHandler(event);"
+				dragDrop="dragDropHandler(event);"
+			>
+				<mx:Canvas
+					id="dragObject1"
+					width="30" height="30" 
+					backgroundColor="red" 
+					mouseDown="dragObjectHandler(event);"
+				/>
+			</mx:Canvas>
+		</mx:TabNavigator>
+		
+
+		<mx:Accordion
+			id="toolbox"
+			width="250"
+			height="100%"
+		>
+			<mx:VBox label="Relation"
+				width="100%" 
+				height="100%"
+			>
+				<mx:Text text="Relational objects." />
+			</mx:VBox>
+
+			<mx:VBox label="Logic"
+				width="100%" 
+				height="100%"
+			>
+				<mx:Text text="Digital logic objects."/>
+			</mx:VBox>
+
+			<mx:VBox label="Settings"
+				width="100%" 
+				height="100%"
+			>
+				<mx:Text text="BlueMesh settings."/>
+			</mx:VBox>
+		</mx:Accordion>
+		</mx:HBox>
+	
+		<mx:ApplicationControlBar id="toolbar" dock="true">
+			<mx:ButtonBar borderStyle="solid" dataProvider="{toolbarLeft}" labelField="label" toolTipField="tooltip" itemClick="textInputPopup(event)" />
+			<mx:ButtonBar borderStyle="solid" dataProvider="{toolbarMiddle}" labelField="label" toolTipField="tooltip" />
+			<mx:Spacer width="100%" />
+			<mx:ButtonBar borderStyle="solid" dataProvider="{toolbarRight}" labelField="label" toolTipField="tooltip" itemClick="infoPopup(event);" />
+		</mx:ApplicationControlBar>
+    </mx:Panel>
+
+</mx:Application>
+
+
+
+
+

@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+<html>
+<head xmlns="http://www.w3.org/1999/xhtml">
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+	<script type="text/javascript" src="/scripts/flashDetection.js"></script>
+	<script language="JavaScript" type="text/javascript">
+	<!--
+	// Define version of Flash required
+	var requiredMajorVersion = 9;
+	var requiredMinorVersion = 0;
+	var requiredRevision = 0;
+	// -->
+</script>
+
+	
+	
+	<title>Flex</title>
+</head>
+
+<body class="pageBody">
+	<script language="JavaScript" type="text/javascript">
+	<!--
+	var hasReqestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+
+	// Check to see if the version meets the requirements for playback
+	if (hasReqestedVersion) {
+		// if we've detected an acceptable version
+		// embed the Flash Content SWF when all tests are passed
+		AC_FL_RunContent(
+					"src", "/flashes/Untitled",
+					"width", "500",
+					"height", "300",
+					"align", "middle",
+					"id", "test",
+					"quality", "high",
+					"bgcolor", "#FFFFFF",
+					"name", "test",
+					"allowScriptAccess","sameDomain",
+					"type", "application/x-shockwave-flash",
+					'codebase', 'http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab',
+					"pluginspage", "http://www.adobe.com/go/getflashplayer"
+		);
+	} else {  // flash is too old or we can't detect the plugin
+		var alternateContent = 'Alternate HTML content should be placed here.<BR>'
+		+ 'This content requires the Adobe Flash Player. '
+		+ '<a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
+		document.write(alternateContent);  // insert non-flash content
+	}
+	// -->
+	</script>
+	<noscript>
+		Provide alternate content for browsers that do not support scripting
+		or for those that have scripting disabled.
+		Alternate HTML content should be placed here.
+		This content requires the Adobe Flash Player and a browser with JavaScript enabled.
+		<a href="http://www.adobe.com/go/getflash/">Get Flash</a>
+	</noscript>
+
+
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXFileReference section */
+		47632D150EE358AF00CFB2E8 /* webLocal.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = webLocal.html; path = bin/htmls/webLocal.html; sourceTree = "<group>"; };
+		47F260290D9C309600D44B76 /* BlueMesh.mxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BlueMesh.mxml; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		067BC4EB0B2B0700002060E0 = {
+			isa = PBXGroup;
+			children = (
+				47632D150EE358AF00CFB2E8 /* webLocal.html */,
+				47F260290D9C309600D44B76 /* BlueMesh.mxml */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		067BC4FF0B2B0C0E002060E0 /* mxmlc */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-output ./bin/$(PROJECT_NAME).swf -file-specs $(PROJECT_NAME).mxml";
+			buildConfigurationList = 067BC5020B2B0C2C002060E0 /* Build configuration list for PBXLegacyTarget "mxmlc" */;
+			buildPhases = (
+			);
+			buildToolPath = /Developer/SDKs/Flex/bin/mxmlc;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = mxmlc;
+			passBuildSettingsInEnvironment = 0;
+			productName = mxmlc;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		067BC4ED0B2B0700002060E0 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 067BC4EE0B2B0700002060E0 /* Build configuration list for PBXProject "BlueMesh" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 0;
+			mainGroup = 067BC4EB0B2B0700002060E0;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				067BC4FF0B2B0C0E002060E0 /* mxmlc */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		067BC4EF0B2B0700002060E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				SDKROOT = /Developer/SDKs/Flex;
+			};
+			name = Debug;
+		};
+		067BC4F00B2B0700002060E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				SDKROOT = /Developer/SDKs/Flex;
+			};
+			name = Release;
+		};
+		067BC5030B2B0C2C002060E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		067BC5040B2B0C2C002060E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = mxmlc;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		067BC4EE0B2B0700002060E0 /* Build configuration list for PBXProject "BlueMesh" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				067BC4EF0B2B0700002060E0 /* Debug */,
+				067BC4F00B2B0700002060E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		067BC5020B2B0C2C002060E0 /* Build configuration list for PBXLegacyTarget "mxmlc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				067BC5030B2B0C2C002060E0 /* Debug */,
+				067BC5040B2B0C2C002060E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 067BC4ED0B2B0700002060E0 /* Project object */;
+}
